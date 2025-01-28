@@ -19,7 +19,7 @@ export class ExpensesController {
   constructor(private expensesService: ExpensesService) {}
 
   @Get()
-  getAll(@Query(new QueryParamsPipe()) query) {
+  getAll(@Query() query) {
     return this.expensesService.getAll(query);
   }
 
