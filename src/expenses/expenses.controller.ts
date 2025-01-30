@@ -8,17 +8,21 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { QueryParamsPipe } from './pipes/query.pipe';
 import { CreateDto } from './dtos/create_expenses.dto';
 import { UpdateDto } from './dtos/update_expenses.dto';
+import { AccessGuard } from './guards/access.guard';
+import { HasEmailToCrate } from './guards/HasEmailToCreate.guard';
 
 @Controller('expenses')
 export class ExpensesController {
   constructor(private expensesService: ExpensesService) {}
 
   @Get()
+  @UseGuards(AccessGuard)
   getAll(@Query() query) {
     return this.expensesService.getAll(query);
   }
@@ -29,6 +33,7 @@ export class ExpensesController {
   }
 
   @Post()
+  @UseGuards(HasEmailToCrate)
   create(@Body() createDto: CreateDto) {
     return this.expensesService.create(createDto);
   }
